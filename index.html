@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Grievance - Student Grievance Desk</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-init.js"></script>
+</head>
+<body>
+  <nav class="nav-bar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Grievance Desk
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Submit</a></li>
+        <li><a href="track.html">Track</a></li>
+        <li><a href="admin/index.html">Admin</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="page-header">
+      <div class="icon-circle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      </div>
+      <h1>Submit a Grievance</h1>
+      <p>Have a concern? Fill out the form below and our committee will review it.</p>
+    </div>
+
+    <div class="card">
+      <div id="formSection">
+        <div id="formAlert" class="alert alert-info"></div>
+
+        <form id="grievanceForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="studentName">Full Name <span class="required">*</span></label>
+              <input type="text" id="studentName" class="form-control" placeholder="e.g. Rahul Sharma" required>
+            </div>
+            <div class="form-group">
+              <label for="rollNumber">Roll Number <span class="required">*</span></label>
+              <input type="text" id="rollNumber" class="form-control" placeholder="e.g. 2024001" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="classDivision">Class & Division <span class="required">*</span></label>
+              <input type="text" id="classDivision" class="form-control" placeholder="e.g. B.Sc. CS - A" required>
+            </div>
+            <div class="form-group">
+              <label for="category">Category <span class="required">*</span></label>
+              <select id="category" class="form-control" required>
+                <option value="">Select a category...</option>
+                <option value="academic">Academic</option>
+                <option value="administration">Administration</option>
+                <option value="facilities">Facilities</option>
+                <option value="examination">Examination</option>
+                <option value="hostel">Hostel</option>
+                <option value="transport">Transport</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Describe Your Grievance <span class="required">*</span></label>
+            <textarea id="description" class="form-control" placeholder="Please describe your issue in detail..." required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="contact">Contact (Email or Phone)</label>
+            <input type="text" id="contact" class="form-control" placeholder="Optional — for follow-up communication">
+          </div>
+
+          <button type="submit" id="submitBtn" class="btn btn-primary btn-full">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Submit Grievance
+          </button>
+        </form>
+      </div>
+
+      <div id="successSection" style="display: none;">
+        <div class="success-screen">
+          <div class="check-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h2>Grievance Submitted Successfully!</h2>
+          <p>Your grievance has been received. Save your Ticket ID to track the status:</p>
+          <div class="ticket-display" id="ticketIdDisplay">GRV-2025-00001</div>
+          <p style="margin-top: 1rem;">You can track the status of your grievance using this Ticket ID.</p>
+          <div style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
+            <a href="track.html" class="btn btn-primary">Track Status</a>
+            <button onclick="location.reload()" class="btn btn-outline">Submit Another</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Student Grievance Desk &mdash; For queries, concerns, and feedback</p>
+  </div>
+
+  <script src="js/submit.js"></script>
+</body>
+</html>

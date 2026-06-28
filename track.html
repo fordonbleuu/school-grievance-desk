@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Grievance - Student Grievance Desk</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-init.js"></script>
+</head>
+<body>
+  <nav class="nav-bar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Grievance Desk
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Submit</a></li>
+        <li><a href="track.html" class="active">Track</a></li>
+        <li><a href="admin/index.html">Admin</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="page-header">
+      <div class="icon-circle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </div>
+      <h1>Track Your Grievance</h1>
+      <p>Enter the Ticket ID you received after submitting to check the current status.</p>
+    </div>
+
+    <div class="card">
+      <div id="trackAlert" class="alert alert-info"></div>
+
+      <form id="trackForm">
+        <div class="form-group">
+          <label for="ticketId">Ticket ID</label>
+          <input type="text" id="ticketId" class="form-control" placeholder="e.g. GRV-2025-00001" style="text-transform: uppercase; font-family: 'Courier New', monospace; font-size: 1.1rem; letter-spacing: 0.1em;">
+        </div>
+        <button type="submit" id="trackBtn" class="btn btn-primary btn-full">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Track Status
+        </button>
+      </form>
+
+      <div id="trackResult"></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Student Grievance Desk &mdash; Transparency and accountability</p>
+  </div>
+
+  <script src="js/track.js"></script>
+</body>
+</html>

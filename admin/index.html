@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Student Grievance Desk</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase-init.js"></script>
+</head>
+<body>
+  <nav class="nav-bar">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Grievance Desk
+      </a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Submit</a></li>
+        <li><a href="../track.html">Track</a></li>
+        <li><a href="index.html" class="active">Admin</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- LOGIN SECTION -->
+  <div id="loginSection" class="container">
+    <div class="auth-box">
+      <div class="card">
+        <div class="card-header">
+          <div class="icon-circle" style="width: 56px; height: 56px; margin: 0 auto 1rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <h1>Admin Sign In</h1>
+          <p>Grievance Committee Members Only</p>
+        </div>
+
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" class="form-control" placeholder="you@school.edu" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+          </div>
+          <div id="loginError" class="auth-error">Invalid credentials</div>
+          <button type="submit" id="loginBtn" class="btn btn-primary btn-full">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Sign In
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD SECTION -->
+  <div id="dashboardSection" class="container-wide" style="display: none;">
+    <div class="card">
+      <div id="dashboardAlert" class="alert alert-info"></div>
+
+      <div class="admin-header">
+        <div>
+          <h1 style="font-size: 1.4rem; font-weight: 700;">Grievance Dashboard</h1>
+          <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 0.2rem;">Manage and respond to student grievances</p>
+        </div>
+        <button id="logoutBtn" class="btn btn-outline btn-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign Out
+        </button>
+      </div>
+
+      <!-- Filter Buttons -->
+      <div class="admin-filters" style="margin-bottom: 1.5rem;">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="pending">Pending</button>
+        <button class="filter-btn" data-filter="under_review">Under Review</button>
+        <button class="filter-btn" data-filter="resolved">Resolved</button>
+      </div>
+
+      <!-- Table -->
+      <div class="grievance-table-wrapper">
+        <table class="grievance-table">
+          <thead>
+            <tr>
+              <th>Ticket ID</th>
+              <th>Student</th>
+              <th>Category</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="grievanceBody"></tbody>
+        </table>
+      </div>
+
+      <!-- Empty State -->
+      <div id="emptyState" class="empty-state" style="display: none;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        <h3>No grievances found</h3>
+        <p>There are no grievances matching the current filter.</p>
+      </div>
+
+      <!-- Detail Panel -->
+      <div id="detailPanel" class="detail-panel">
+        <div class="detail-panel-header">
+          <h3>
+            <span id="detailTicket" style="font-family: 'Courier New', monospace; color: var(--primary);">GRV-2025-00001</span>
+            <span id="detailStatus"></span>
+          </h3>
+          <button id="detailCloseBtn" class="btn btn-outline btn-sm">Close</button>
+        </div>
+        <div class="detail-panel-body">
+          <div class="detail-grid">
+            <div class="detail-field">
+              <div class="label">Student Name</div>
+              <div class="value" id="detailName"></div>
+            </div>
+            <div class="detail-field">
+              <div class="label">Roll Number</div>
+              <div class="value" id="detailRoll"></div>
+            </div>
+            <div class="detail-field">
+              <div class="label">Class / Division</div>
+              <div class="value" id="detailClass"></div>
+            </div>
+            <div class="detail-field">
+              <div class="label">Category</div>
+              <div class="value" id="detailCategory"></div>
+            </div>
+            <div class="detail-field">
+              <div class="label">Contact</div>
+              <div class="value" id="detailContact"></div>
+            </div>
+            <div class="detail-field">
+              <div class="label">Submitted On</div>
+              <div class="value" id="detailDate"></div>
+            </div>
+          </div>
+
+          <div class="detail-field" style="margin-bottom: 1.5rem;">
+            <div class="label">Description</div>
+            <div class="value description-text" id="detailDescription"></div>
+          </div>
+
+          <div class="panel-actions">
+            <div class="form-group">
+              <label for="updateStatus">Update Status</label>
+              <select id="updateStatus" class="form-control">
+                <option value="pending">Pending</option>
+                <option value="under_review">Under Review</option>
+                <option value="resolved">Resolved</option>
+              </select>
+            </div>
+            <div class="form-group" style="flex: 2;">
+              <label for="updateNotes">Admin Notes</label>
+              <textarea id="updateNotes" class="form-control" placeholder="Add resolution notes or comments..." style="min-height: 60px;"></textarea>
+            </div>
+            <button id="saveUpdate" class="btn btn-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Student Grievance Desk &mdash; Admin Dashboard</p>
+  </div>
+
+  <script src="../js/admin.js"></script>
+</body>
+</html>
